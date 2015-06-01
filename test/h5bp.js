@@ -10,6 +10,7 @@ var express = require('express');
 require('chai').should();
 var request = require('supertest');
 var path = require('path');
+var mime = require('express/node_modules/send').mime;
 
 var HTML = 'html htm'.split(' ');
 var IMAGE = 'bmp gif jpeg jpg jpe png svg svgz tiff tif ico'.split(' ');
@@ -39,7 +40,7 @@ describe('h5bp', function() {
 					helper.request()
 						.get('/test.' + e)
 						.expect('Content-Type', new RegExp(
-							express.mime.lookup(e).replace(/([\/\+])/g, '\\$1') + '(?:charset=UTF-8)?')
+							mime.lookup(e).replace(/([\/\+])/g, '\\$1') + '(?:charset=UTF-8)?')
 						)
 						.expect(200, done);
 				});
@@ -50,7 +51,7 @@ describe('h5bp', function() {
 					helper.request()
 						.get('/test.' + e + '?' + Math.random())
 						.expect('Content-Type', new RegExp(
-							express.mime.lookup(e).replace(/([\/\+])/g, '\\$1') + '(?:charset=UTF-8)?')
+							mime.lookup(e).replace(/([\/\+])/g, '\\$1') + '(?:charset=UTF-8)?')
 						)
 						.expect(200, done);
 				});
@@ -59,14 +60,14 @@ describe('h5bp', function() {
 			it('should leave content-type empty for files without extensions', function(done) {
 				helper.request()
 					.get('/')
-					.expect('Content-Type', 'x-text/woot')
+					.expect('Content-Type', 'x-text/woot; charset=utf-8')
 					.expect(200, done);
 			});
 
 			it('should leave content-type empty for files without extensions', function(done) {
 				helper.request()
 					.get('/foo')
-					.expect('Content-Type', 'x-text/bar')
+					.expect('Content-Type', 'x-text/bar; charset=utf-8')
 					.expect(200, done);
 			});
 		});
@@ -619,7 +620,7 @@ describe('h5bp', function() {
 					.start()
 					.request()
 					.get('/commonjs.js')
-					.expect('content-type', 'application/javascript')
+					.expect('content-type', 'application/javascript; charset=utf-8')
 					.expect(200, done);
 			});
 
@@ -653,7 +654,7 @@ describe('h5bp', function() {
 					.start()
 					.request()
 					.get('/commonjs.123456.js')
-					.expect('content-type', 'application/javascript')
+					.expect('content-type', 'application/javascript; charset=utf-8')
 					.expect(200, done);
 			});
 
@@ -963,7 +964,7 @@ describe('h5bp', function() {
 					.start()
 					.request()
 					.get('/sass.css')
-					.expect('content-type', 'text/css')
+					.expect('content-type', 'text/css; charset=utf-8')
 					.expect(200, done);
 			});
 
@@ -980,7 +981,7 @@ describe('h5bp', function() {
 					.start()
 					.request()
 					.get('/deep/sass.css')
-					.expect('content-type', 'text/css')
+					.expect('content-type', 'text/css; charset=utf-8')
 					.expect(200, done);
 			});
 
@@ -997,7 +998,7 @@ describe('h5bp', function() {
 					.start()
 					.request()
 					.get('/sass.123456.css')
-					.expect('content-type', 'text/css')
+					.expect('content-type', 'text/css; charset=utf-8')
 					.expect(200, done);
 			});
 
@@ -1044,7 +1045,7 @@ describe('h5bp', function() {
 					helper.request()
 						.get('/test.' + e)
 						.expect('Content-Type', new RegExp(
-							express.mime.lookup(e).replace(/([\/\+])/g, '\\$1') + '(?:charset=UTF-8)?')
+							mime.lookup(e).replace(/([\/\+])/g, '\\$1') + '(?:charset=UTF-8)?')
 						)
 						.expect(200, done);
 				});
@@ -1055,7 +1056,7 @@ describe('h5bp', function() {
 					helper.request()
 						.get('/test.' + e + '?' + Math.random())
 						.expect('Content-Type', new RegExp(
-							express.mime.lookup(e).replace(/([\/\+])/g, '\\$1') + '(?:charset=UTF-8)?')
+							mime.lookup(e).replace(/([\/\+])/g, '\\$1') + '(?:charset=UTF-8)?')
 						)
 						.expect(200, done);
 				});
@@ -1064,7 +1065,7 @@ describe('h5bp', function() {
 			it('should leave content-type empty for files without extensions', function(done) {
 				helper.request()
 					.get('/')
-					.expect('Content-Type', 'x-text/woot')
+					.expect('Content-Type', 'x-text/woot; charset=utf-8')
 					.expect(200, done);
 			});
 		});
@@ -1549,7 +1550,7 @@ describe('h5bp', function() {
 					.start()
 					.request()
 					.get('/commonjs.123456.js')
-					.expect('content-type', 'application/javascript')
+					.expect('content-type', 'application/javascript; charset=utf-8')
 					.expect(200, done);
 			});
 
